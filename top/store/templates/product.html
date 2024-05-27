@@ -1,0 +1,108 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+<section class="section product-detail">
+    <div class="columns">
+        <div class="column">
+            <div class="box">
+                <figure class="image">
+                    <img src="{{ product.image.url }}" alt="">
+                </figure>
+            </div>
+        </div>
+        <div class="column is-flex is-flex-direction-column is-justify-content-space-evenly">
+            <div>
+                <div class="title">
+                    {{product.name}}
+                    {% if product.is_new %}
+                    <span class="tag is-danger">Новинка!</span>
+                    {% endif %}
+
+                    {% if product.is_discounted %}
+                    <span class="tag is-primary">Скидка!</span>
+                    {% endif %}
+                </div>
+                <div class="subtitle is-flex mt-4">
+                    <span class="mr-6">0 отзывов</span>
+                    <span class="is-size-4 mx-3 ">
+                        <a href="#">
+                            <ion-icon name="logo-whatsapp" class="order"></ion-icon>
+                        </a>
+                        <a href="#">
+                            <ion-icon name="logo-youtube" class="order"></ion-icon>
+                        </a>
+                        <a href="#">
+                            <ion-icon name="logo-github" class="order"></ion-icon>
+                        </a>
+                    </span>
+                </div>
+            </div>
+            <div class="columns is-vcentered">
+                <div class="column is-7">
+                    <div class="message">
+                        <div class="message-body">
+                            <div class="title is-5 my-3">Характеристики</div>
+                            {{ product.description }}
+                        </div>
+                    </div>
+                </div>
+                <div class="column has-text-centered">
+                    <div class="message">
+                        <div class="message-body">
+                            <div class="title">
+                                {{product.price}} рублей
+                            </div>
+                            <div class="buttons is-centered">
+                                <a class="button is-small" href="{% url 'store:guest_register' product.pk %}?pk={{ product.pk }}"> 
+                                    <ion-icon name="cart" class="mr-1"></ion-icon>
+                                </a>
+                                {% if user not in product.favorite.all %}
+                                <a href="{% url 'store:product' product.pk %}?action=favorite" class="button is-small">
+                                    <ion-icon name="heart-outline"></ion-icon>
+                                </a>
+                                {% else %}
+                                <a href="{% url 'store:product' product.pk %}?action=favorite" class="button is-small">
+                                    <ion-icon name="heart" class="has-text-danger"></ion-icon>
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box">
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+
+            {% if field.name == 'rating' %}
+            <div class="field">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                <div class="control">
+                    <div class="select">
+                        {{field}}
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="field">
+                <label for="{{field.id_for_label}}" class="label">
+                    {{field.label}}
+                </label>
+                <div class="control">
+                    {{field}}
+                </div>
+            </div>
+            {% endif %}
+
+
+            {% endfor %}
+            <button class="button is-success">
+                Отправить
+            </button>
+        </form>
+    </div>
+</section>
+{% endblock %}

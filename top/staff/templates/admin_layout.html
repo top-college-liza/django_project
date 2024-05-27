@@ -1,0 +1,64 @@
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'static/bulma.css' %}">
+    <link rel="stylesheet" href="{% static 'static/style.css' %}">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body>
+<nav class="navbar">
+    <div class="navbar-brand">
+        <a href="{% url 'staff:home' %}" class="navbar-item">
+            <ion-icon name="person-outline"></ion-icon>
+        </a>
+    </div>
+    <div class="navbar-menu">
+        <div class="navbar-start">
+            <a href="{% url 'store:home' %}" class="navbar-item">
+                Страница магазина
+            </a>
+            <div class="navbar-item has-dropdown is-hoverable">
+                <div class="navbar-link">
+                    Отсортировать заказы
+                </div>
+                <div class="navbar-dropdown">
+                    <a href="{% url 'staff:home' %}" class="navbar-item">
+                        Все заказы
+                    </a>
+                    <a href="{% url 'staff:home' %}?filter=new" class="navbar-item">
+                        Новые заказы
+                    </a>
+                    <a href="{% url 'staff:home' %}?filter=get" class="navbar-item">
+                        Принятые заказы
+                    </a>
+                    <a href="{% url 'staff:home' %}?filter=send" class="navbar-item">
+                        Отправленные заказы
+                    </a>
+                    <a href="{% url 'staff:home' %}?filter=done" class="navbar-item">
+                        Выполненные заказы
+                    </a>
+                </div>
+
+            </div>
+            <a href="{% url 'staff:add_product' %}" class="navbar-item">
+                Добавить товар
+            </a>
+        </div>
+        <div class="navbar-end">
+            <a href="{% url 'users:sign_out' %}" class="navbar-item">
+                Выйти
+            </a>
+        </div>
+    </div>
+</nav>
+{% block content %}
+{% endblock %}
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+    <div class="section">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-10 box">
+                    <table class="table is-striped is-fullwidth">
+                        <thead>
+                        <tr>
+                            <th>Номер заказа</th>
+                            <th>Товары</th>
+                            <th>Общая сумма</th>
+                            <th>Статус</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for order in orders %}
+                            <tr>
+                                <td>№{{ order.pk }}</td>
+                                <td>
+                                    {{ order.order_products_list }}
+                                </td>
+                                <td>{{ order.total_price }} рублей</td>
+                                <td>
+                                <span class="tag is-medium is-warning">
+                                    {{ order.status }}
+                                </span>
+                                </td>
+                                <td>
+                                    <a class="button is-small" href="{% url 'store:order_edit' order.pk %}">
+                                        <ion-icon name="create-outline"></ion-icon>
+                                    </a>
+                                    {% if order.status == 'Создан' %}
+                                    <a href="{% url 'store:delete_order' order.pk %}" class="button is-small">
+                                        <ion-icon name="trash-outline"></ion-icon>
+                                    </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
